@@ -1,14 +1,18 @@
 (function ( $ ) {
   $.fn.yell2see = function(options) {
 
+    //
+    // Setup & State
+    //
     var jqObject = this;
     var settings = $.extend({
-        // Values are normalized to be 0-100
-        minToShow: 20, // 0% opacity below this value
+        // Volumes are normalized to be 0-100
+        minToShow: 20, // 0% opacity below this volume
                        // linear interpolate in between
-        maxToShow: 80, // 100% opacity above this value
+        maxToShow: 80, // 100% opacity above this volume
         permaShow: false // Permanently show nodes once maxToShow is hit
     }, options);
+    var permaShowed = false;
 
     //
     // Browser compatibility shims
@@ -47,6 +51,9 @@
     function makeScriptNode(context, analyser, jqObject) {
         var node = context.createScriptProcessor(2048, 1, 1);
         node.onaudioprocess = function() {
+            if (permaShowed) {
+              return;
+            }
             var array =  new Uint8Array(analyser.frequencyBinCount);
             analyser.getByteFrequencyData(array);
             var volume = getAverageVolume(array); 
@@ -54,8 +61,11 @@
             var targetOpacityPct = 100;
             if (volume < settings.minToShow) {
               targetOpacityPct = 0;
-            } else if (volume > settings.maxToShow) {
+            } else if (volume >= settings.maxToShow) {
               targetOpacityPct = 100;
+              if (settings.permaShow) {
+                permaShowed = true;
+              }
             } else {
               var range = settings.maxToShow - settings.minToShow;
               var distance = volume - settings.minToShow;
