@@ -7,6 +7,14 @@ body {
   color: #222;
 }
 
+.headline {
+  color: #222;
+}
+
+.headline:hover {
+  text-decoration: none;
+}
+
 .message-form-container {
   margin-top: 15%;
 }
@@ -30,9 +38,19 @@ body {
 }
 
 .message-display {
+    overflow-wrap: break-word;
+    padding: 20px;
 }
+
 .message-display-container {
   border: 2px solid black;
-  margin-top: 15%;
+  margin:0 auto;
+  margin-top: 50px;
   width: auto;
+  max-width: 800px;
+}
+
+
+#copy-button {
+  margin-top: 15px;
 }
