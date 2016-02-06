@@ -125,8 +125,15 @@ app.route('/:messageId')
       if(err){
         console.log(err);
       } else {
-        var message = results.message;
-        res.render('message', {message:message});
+        if(results.message){
+          var message = results.message;
+          res.render('message', {message:message});
+        } else {
+          console.log('something weird happened!>>>>>>>>>>');
+          console.log('message.findById did not error but there was not message');
+          console.log(results);
+
+        }
       }
     });
   });
