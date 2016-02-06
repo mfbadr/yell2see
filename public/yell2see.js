@@ -49,10 +49,7 @@
         return node;
     }
 
-    //
-    // Run
-    //
-    navigator.getUserMedia({audio:true}, function(stream) {
+    function processStream(stream) {
         var context = new AudioContext();
         var mediaStreamSource = context.createMediaStreamSource( stream );
         var analyser = makeAnalyserNode(context);
@@ -60,10 +57,18 @@
         mediaStreamSource.connect(analyser);
         analyser.connect(javascriptNode);
         javascriptNode.connect(context.destination);
-    }, function(e) { console.log("error", e);});
+    }
+
+    function didntGetStream(error) {
+      alert(error);
+    }
+
+    //
+    // Run
+    //
+    navigator.getUserMedia({audio:true}, processStream, didntGetStream);
     return this;
   };
 }( jQuery ));
-
 
 jQuery(function() { jQuery('.yell2see').yell2see();});
