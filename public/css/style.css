@@ -16,6 +16,11 @@ body {
   text-decoration: none;
 }
 
+.twitter-link {
+  color: #222;
+}
+
+
 .message-form-container {
   margin-top: 80px;
 }
