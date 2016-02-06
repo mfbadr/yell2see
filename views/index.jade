@@ -17,6 +17,11 @@ html.no-js(lang='')
           h1.text-center.yell2see Yell2See
       .row
         .col-xs-12
+          form(action="newmessage" method='post')
+            input(type="text" name='message')
+            button(type='submit') send your message
+      .row
+        .col-xs-12
           img.yell2see(src='http://placehold.it/350x150')
       .row
         .col-xs-12

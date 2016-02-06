@@ -1,1 +1,1 @@
-PORT=8080 DB=mongodb://localhost/yell2see node server/app.js
+PORT=8080 DB=mongodb://localhost/yell2see nodemon server/app.js

@@ -14,16 +14,6 @@ var db      = process.env.DB || process.env.MONGOLAB_URI;
 app.set('views', './views');
 app.set('view engine', 'jade');
 
-//ROUTES
-app.route('/')
-  .get(function(req, res){
-    console.log('get to /');
-    res.render('index', {});
-  });
-
-// app.route('/:messageId')
-  // .get()
-
 //logging
 app.use(morgan('dev'));
 //set static file server
@@ -33,7 +23,47 @@ app.use(serveStatic('./public'));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
+//ROUTES
+app.route('/')
+  .get(function(req, res){
+    console.log('get to /');
+    res.render('index');
+  });
+
+app.route('/newmessage')
+  .post(function(req, res){
+    Message.create(req.body, function(err, results){
+      if(err){
+        console.log(err);
+      } else {
+        console.log(results);
+      }
+    });
+  });
+
+// app.route('/:messageId')
+  // .get()
+
+
+//
 //Message Model
+
+function Message(){}
+
+Object.defineProperty(Message, 'collection', {
+  get: function(){return global.mongodb.collection('messages');}
+});
+
+Message.findById = function(id, cb){
+  var _id = Mongo.ObjectID(id);
+  Message.collection.findOne({_id:_id}, cb);
+};
+
+Message.create = function(o, cb){
+  Message.collection.save(o, cb);
+};
+
+///////
 //
 
 
