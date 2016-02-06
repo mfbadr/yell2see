@@ -1,10 +1,11 @@
 body {
-  background-color: #fff;
+  background-color: #fff6f0;
   font-size: 1.5em;
   line-height: 1.6;
   font-weight: 400;
   font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: #222;
+  text-align: center;
 }
 
 .headline {
@@ -16,19 +17,18 @@ body {
 }
 
 .message-form-container {
-  margin-top: 15%;
+  margin-top: 80px;
 }
 
-
 .message-input {
+  border: 2px solid black;
   display: block;
   margin: 0 auto;
-  border: 5px solid grey;
-  border-radius: 30px;
   outline: none;
   width: 65%;
-  line-height: 50px;
-  text-align: center;
+  font-size: 2em;
+  min-height: 5em;
+  line-height: 1.3em;
 }
 
 .message-submit {
@@ -37,20 +37,54 @@ body {
   margin-top: 20px;
 }
 
+.message-display-container {
+  border: 2px solid black;
+  margin:0 auto;
+  margin-top: 80px;
+  width: 65%;
+  background-color: #fcfcfc;
+  font-size: 2em;
+  min-height: 5em;
+  line-height: 1.3em;
+  text-align: left;
+}
+
 .message-display {
     overflow-wrap: break-word;
     padding: 20px;
 }
 
-.message-display-container {
-  border: 2px solid black;
-  margin:0 auto;
-  margin-top: 50px;
-  width: auto;
-  max-width: 800px;
-}
-
 
 #copy-button {
   margin-top: 15px;
+}
+
+.page-header {
+  border-bottom: 0;
+  padding: 0; margin: 0;
+  padding-top: 1em;
+}
+
+.page-header h1 {
+  font-size: 12vw;
+  font-family: "Sura", serif;
+}
+
+p.subheader {
+  font-size: 3vw;
+}
+
+div.promo {
+  background-color: white;
+  margin-top: 5em;
+  background-color: rgba(255, 255, 255, .5);
+  font-weight: bold;
+  font-size: 1.5em;
+}
+
+div.explanation {
+}
+div.explanation p {
+  width: 65%;
+  margin: 0 auto;
 }

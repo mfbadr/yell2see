@@ -1,23 +1,17 @@
 extends layout
 
 block content
-  .container-fluid
-    .row
-      .col-xs-12
-        .page-header
-          h1.text-center
-            a.headline(href="/") Yell2See
-    .row
-      .col-xs-12.text-center
-        h3 Yell to reveal your message!
-      .col-xs-12
-        .message-display-container
-          p.text-center.message-display.yell2see #{message}
-      .col-xs-12.text-center
-        button.btn#copy-button Click here to copy the link to this yell2see!
-      .col-xs-12.text-center
-        br
-        a(href="/") Send your own yell2see!
+  .row
+    .col-xs-12
+      p.subheader
+        | Yell to reveal your message!
+    .col-xs-12
+      .message-display-container.message
+        p.message-display.yell2see #{message}
+    .col-xs-12
+      button.btn#copy-button copy the link to this yell2see
+    a(href="/")
+      .col-xs-12.promo Send your own yell2see!
 
 
   script(src='js/clipboard.min.js')
