@@ -127,6 +127,7 @@ app.route('/:messageId')
       } else {
         if( results && results.message){
           var message = results.message;
+          console.log(results);
           res.render('message', {message:message});
         } else {
           console.log('something weird happened!>>>>>>>>>>');
