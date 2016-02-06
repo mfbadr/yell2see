@@ -83,7 +83,8 @@ div.promo {
 }
 
 div.explanation {
-  text-align: center;
+}
+div.explanation p {
   width: 65%;
   margin: 0 auto;
 }
