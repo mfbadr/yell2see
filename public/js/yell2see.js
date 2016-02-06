@@ -10,7 +10,7 @@
         minToShow: 10, // 0% opacity below this volume
                        // linear interpolate in between
         maxToShow: 50, // 100% opacity above this volume
-        permaShow: true // Permanently show nodes once maxToShow is hit
+        permaShow: false // Permanently show nodes once maxToShow is hit
     }, options);
     var permaShowed = false;
 
