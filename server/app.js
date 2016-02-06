@@ -7,7 +7,7 @@ var connect     = require('connect'),
     bodyParser  = require('body-parser');
 
 var app = express();
-var db      = process.env.DB;
+var db      = process.env.DB || process.env.MONGOLAB_URI;
 
 //app.engine('jade', require('jade').__express);
 
