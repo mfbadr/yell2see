@@ -1,0 +1,24 @@
+{
+  "name": "yell2see",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mfbadr/yell2see"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mfbadr/yell2see/issues"
+  },
+  "homepage": "https://github.com/mfbadr/yell2see",
+  "dependencies": {
+    "connect": "^3.4.1",
+    "morgan": "^1.6.1",
+    "serve-static": "^1.10.2"
+  }
+}
