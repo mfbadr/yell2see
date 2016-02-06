@@ -1,20 +1,25 @@
 extends layout
 
 block content
-  .container-fluid
-    .row
-      .col-xs-12
-        .page-header
-          h1.text-center
-            a.headline(href="/") Yell2See
-    .row
-      .col-xs-12
-        p.intro.text-center
-          | Send a message they will have to yell to see!
-        .message-form-container
-          form(action="newmessage" method='post')
-            textarea(class='message-input' name='message')
-            button(type='submit' class='message-submit btn') send your message
-    .row
-      .col-xs-12
-        p.yell2see Yell2See is a new messaging service.
+  .row
+    .col-xs-12
+      p.subheader
+        | Send a message they'll have to yell to see!
+      .message-form-container
+        form(action="/newmessage" method='post')
+          textarea(class='message message-input' name='message')
+          button(type='submit' class='message-submit btn') 
+            | send your message
+  .row
+    .col-xs-12.explanation
+      hr
+      p.yell2see
+        | Recipients of a Yell2See have to yell loudly to reveal its contents.
+        | Made by @andrewbadr and @mikeybadr for @stupidhackathon.
+      //<!--
+      //p.yell2see
+        | This new messaging concept has three big:
+        | (1) Effort shows you care
+        | (2) Engages the limbic system
+        | (3) People around you know when you got a message.
+      //p.yell2see

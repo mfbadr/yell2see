@@ -14,5 +14,12 @@ html.no-js(lang='')
     script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js')
     link(href='./css/style.css', rel='stylesheet', type='text/css')
   body
-    block content
+    .container
+      .row
+        .col-xs-12
+          .page-header
+            h1
+              a.headline(href="/") Yell2See
+      block content
+
   script(src='js/yell2see.js')
