@@ -7,18 +7,17 @@ var connect     = require('connect'),
     bodyParser  = require('body-parser');
 
 var app = express();
-var db      = process.env.DB || process.env.MONGOLAB_URI;
+var db  = process.env.DB || process.env.MONGOLAB_URI;
 
-//app.engine('jade', require('jade').__express);
-
+//set views dir and template engine
 app.set('views', './views');
 app.set('view engine', 'jade');
 
-//logging
-app.use(morgan('dev'));
 //set static file server
 app.use(serveStatic('./public'));
 
+//logging
+app.use(morgan('dev'));
 //parse POST requrests as JSON
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
@@ -57,14 +56,9 @@ app.route('/:messageId')
       }
     });
   });
+//End Routes
 
-// app.route('/:messageId')
-  // .get()
-
-
-//
 //Message Model
-
 function Message(){}
 
 Object.defineProperty(Message, 'collection', {
@@ -80,14 +74,10 @@ Message.create = function(o, cb){
   Message.collection.save(o, cb);
 };
 
-///////
-//
+//End Message Model
 
-
+//fire it up!
 require('./lib/mongodb')(db, function(){
   console.log('Express is lsitening on port:', port);
   app.listen(port);
 });
-
-//app.listen(port);
-//console.log('Node listening on port ' + port);
