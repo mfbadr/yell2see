@@ -1,49 +1,21 @@
-//browser compatibility shims
-if (!navigator.getUserMedia) {
-    navigator.getUserMedia = navigator.getUserMedia 
-                           || navigator.webkitGetUserMedia 
-                           || navigator.mozGetUserMedia 
-                           || navigator.msGetUserMedia;    
-}
-if (! window.AudioContext) {
-    if (! window.webkitAudioContext) {
-        alert('no audiocontext found');
+(function ( $ ) {
+  $.fn.yell2see = function(options) {
+
+    var jqObject = this;
+
+    //
+    // Browser compatibility shims
+    //
+    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+    var AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (!(AudioContext && navigator.getUserMedia)) {
+      console.log("Error: audio APIs not supported");
     }
-    window.AudioContext = window.webkitAudioContext;
-}
 
-//
-navigator.getUserMedia({audio:true}, function(stream) {
-    var context = new AudioContext();
-    //source node from mic stream
-    var mediaStreamSource = context.createMediaStreamSource( stream );
-
-    // setup a analyzer
-    analyser = context.createAnalyser();
-    analyser.smoothingTimeConstant = 0.3;
-    analyser.fftSize = 1024;
-    //var sourceNode = context.createBufferSource();
-    //sourceNode.connect(analyser);
-
-    var nodes = $('.yell2see');
-
-    var javascriptNode = context.createScriptProcessor(2048, 1, 1);
-    javascriptNode.onaudioprocess = function() {
-        //console.log("onaudioprocess");
-
-        // get the average, bincount is fftsize / 2
-        var array =  new Uint8Array(analyser.frequencyBinCount);
-        analyser.getByteFrequencyData(array);
-        var average = getAverageVolume(array);
-
-
-        var opacity = average / 255;
-        nodes.css({'opacity': opacity});
-
-
-    };
+    //
+    // Helper functions
+    //
     function getAverageVolume(array) {
-        // console.log("getAverageVolume");
         var values = 0;
         var average;
 
@@ -55,14 +27,43 @@ navigator.getUserMedia({audio:true}, function(stream) {
         }
 
         average = values / length;
-        //console.log(average);
         return average;
     }
 
-    mediaStreamSource.connect(analyser);
-    analyser.connect(javascriptNode);
-    javascriptNode.connect(context.destination);
+    function makeAnalyserNode(context) {
+        analyser = context.createAnalyser();
+        analyser.smoothingTimeConstant = 0.3;
+        analyser.fftSize = 1024;
+        return analyser;
+    }
+
+    function makeScriptNode(context, analyser, jqObject) {
+        var node = context.createScriptProcessor(2048, 1, 1);
+        node.onaudioprocess = function() {
+            var array =  new Uint8Array(analyser.frequencyBinCount);
+            analyser.getByteFrequencyData(array);
+            var average = getAverageVolume(array);
+            var opacity = average / 255;
+            jqObject.css({'opacity': opacity});
+        };
+        return node;
+    }
+
+    //
+    // Run
+    //
+    navigator.getUserMedia({audio:true}, function(stream) {
+        var context = new AudioContext();
+        var mediaStreamSource = context.createMediaStreamSource( stream );
+        var analyser = makeAnalyserNode(context);
+        var javascriptNode = makeScriptNode(context, analyser, jqObject);
+        mediaStreamSource.connect(analyser);
+        analyser.connect(javascriptNode);
+        javascriptNode.connect(context.destination);
+    }, function(e) { console.log("error", e);});
+    return this;
+  };
+}( jQuery ));
 
 
-}, function(e) { console.log("error", e);})
-
+jQuery(function() { jQuery('.yell2see').yell2see();});
