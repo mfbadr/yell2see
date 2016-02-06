@@ -34,19 +34,19 @@ app.route('/newmessage')
     res.redirect('/');
   })
   .post(function(req, res){
-    Message.create(req.body, function(err, results){
+    Message.create(req.body.message, function(err, results){
       if(err){
         console.log(err);
       } else {
-        var newMessage = results.ops[0];
-        res.redirect('/' + newMessage._id);
+        var newMessageID = results.result.upserted[0]._id; // :/
+        res.redirect('/' + newMessageID);
       }
     });
   });
 
 app.route('/:messageId')
   .get(function(req, res){
-    var mId = req.params.messageId;
+    var mId = Number(req.params.messageId);
     Message.findById(mId, function(err, results){
       if(err){
         console.log(err);
@@ -66,11 +66,29 @@ Object.defineProperty(Message, 'collection', {
 });
 
 Message.findById = function(id, cb){
-  var _id = Mongo.ObjectID(id);
-  Message.collection.findOne({_id:_id}, cb);
+  var _id = Number(id);
+  Message.collection.findOne({_id:id}, cb);
 };
 
-Message.create = function(o, cb){
+// Returns a random integer between min (included) and max (excluded)
+// Using Math.round() will give you a non-uniform distribution!
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
+function makeMessageID() {
+  // This does not check for uniqueness.
+  // According to a birthday paradox calculator, we expect ~80k messages before hitting a duplicate ID. Good enough for now!
+  var baseID = getRandomInt(0, Math.pow(2, 32)-1);
+  return baseID;
+}
+
+Message.create = function(message, cb){
+  var o = {
+    message: message,
+    _id: makeMessageID()
+  };
   Message.collection.save(o, cb);
 };
 
