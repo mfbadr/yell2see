@@ -20,6 +20,9 @@ body {
   color: #222;
 }
 
+.yell2see {
+  opacity: 0;
+}
 
 .message-form-container {
   margin-top: 80px;
