@@ -7,10 +7,10 @@
     var jqObject = this;
     var settings = $.extend({
         // Volumes are normalized to be 0-100
-        minToShow: 20, // 0% opacity below this volume
+        minToShow: 10, // 0% opacity below this volume
                        // linear interpolate in between
-        maxToShow: 80, // 100% opacity above this volume
-        permaShow: false // Permanently show nodes once maxToShow is hit
+        maxToShow: 50, // 100% opacity above this volume
+        permaShow: true // Permanently show nodes once maxToShow is hit
     }, options);
     var permaShowed = false;
 
@@ -58,6 +58,10 @@
             analyser.getByteFrequencyData(array);
             var volume = getAverageVolume(array); 
             volume = volume * 100 / 255; // Normalize to 0-100
+
+            // Does this fix the bug where it stops listening?
+            console.log(volume);
+
             var targetOpacityPct = 100;
             if (volume < settings.minToShow) {
               targetOpacityPct = 0;
