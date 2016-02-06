@@ -31,12 +31,29 @@ app.route('/')
   });
 
 app.route('/newmessage')
+  .get(function(req, res){
+    res.redirect('/');
+  })
   .post(function(req, res){
     Message.create(req.body, function(err, results){
       if(err){
         console.log(err);
       } else {
-        console.log(results);
+        var newMessage = results.ops[0];
+        res.redirect('/' + newMessage._id);
+      }
+    });
+  });
+
+app.route('/:messageId')
+  .get(function(req, res){
+    var mId = req.params.messageId;
+    Message.findById(mId, function(err, results){
+      if(err){
+        console.log(err);
+      } else {
+        var message = results.message;
+        res.render('message', {message:message});
       }
     });
   });
