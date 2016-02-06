@@ -2,6 +2,13 @@
   $.fn.yell2see = function(options) {
 
     var jqObject = this;
+    var settings = $.extend({
+        // Values are normalized to be 0-100
+        minToShow: 20, // 0% opacity below this value
+                       // linear interpolate in between
+        maxToShow: 80, // 100% opacity above this value
+        permaShow: false // Permanently show nodes once maxToShow is hit
+    }, options);
 
     //
     // Browser compatibility shims
@@ -42,8 +49,19 @@
         node.onaudioprocess = function() {
             var array =  new Uint8Array(analyser.frequencyBinCount);
             analyser.getByteFrequencyData(array);
-            var average = getAverageVolume(array);
-            var opacity = average / 255;
+            var volume = getAverageVolume(array); 
+            volume = volume * 100 / 255; // Normalize to 0-100
+            var targetOpacityPct = 100;
+            if (volume < settings.minToShow) {
+              targetOpacityPct = 0;
+            } else if (volume > settings.maxToShow) {
+              targetOpacityPct = 100;
+            } else {
+              var range = settings.maxToShow - settings.minToShow;
+              var distance = volume - settings.minToShow;
+              targetOpacityPct = 100 * distance / range;
+            }
+            var opacity = targetOpacityPct / 100; // 0.0-1.0
             jqObject.css({'opacity': opacity});
         };
         return node;
@@ -57,6 +75,12 @@
         mediaStreamSource.connect(analyser);
         analyser.connect(javascriptNode);
         javascriptNode.connect(context.destination);
+
+        // Does this make it not get GCed?
+        // https://bugzilla.mozilla.org/show_bug.cgi?id=934512
+        // Answer: No, but it makes it play an annoying sound :D
+        //window.source = mediaStreamSource;
+        //source.connect(context.destination);
     }
 
     function didntGetStream(error) {
