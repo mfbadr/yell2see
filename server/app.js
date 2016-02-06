@@ -19,10 +19,10 @@ app.route('/')
   .get(function(req, res){
     console.log('get to /');
     res.render('index', {});
+  });
 
-app.route('/:messageId')
-  //query 
-  .get()
+// app.route('/:messageId')
+  // .get()
 
 //logging
 app.use(morgan('dev'));
