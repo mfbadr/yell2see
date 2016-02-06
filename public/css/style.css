@@ -1,0 +1,38 @@
+body {
+  background-color: #fff;
+  font-size: 1.5em;
+  line-height: 1.6;
+  font-weight: 400;
+  font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #222;
+}
+
+.message-form-container {
+  margin-top: 15%;
+}
+
+
+.message-input {
+  display: block;
+  margin: 0 auto;
+  border: 5px solid grey;
+  border-radius: 30px;
+  outline: none;
+  width: 65%;
+  line-height: 50px;
+  text-align: center;
+}
+
+.message-submit {
+  display: block;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+
+.message-display {
+}
+.message-display-container {
+  border: 2px solid black;
+  margin-top: 15%;
+  width: auto;
+}
